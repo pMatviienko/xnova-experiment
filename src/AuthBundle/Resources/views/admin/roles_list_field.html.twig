@@ -1,0 +1,7 @@
+{% extends 'SonataAdminBundle:CRUD:list_array.html.twig' %}
+
+{% block field %}
+    {% for val in value %}
+            <span class="label label-info">{{ val |replace({'ROLE_':''}) }}</span>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,7 @@
+services:
+    auth.user_manager:
+        class: AuthBundle\Manager\UserManager
+        arguments: ['@fos_user.util.password_updater', '@fos_user.util.canonical_fields_updater', '@fos_user.object_manager', '%fos_user.model.user.class%']
+    auth.service.user_service:
+        class: AuthBundle\Service\UserService
+        arguments: ['@auth.user_manager', '@event_dispatcher', '@fos_user.util.user_manipulator']

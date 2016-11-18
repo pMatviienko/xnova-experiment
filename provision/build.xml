@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Allyz" default="set-up" basedir="" description="Allyz">
+
+    <property name="path.provision" value="provision"/>
+    <property name="path.app" value="app"/>
+
+    <target name="test">
+        <exec command="./vendor/bin/phpunit --printer PHPUnit\\TeamCity\\TestListener" dir="" escape="false" passthru="true"/>
+        <exec command="php bin/console doctrine:database:drop --if-exists --force --env test" dir="" escape="false" passthru="true"/>
+    </target>
+
+    <target name="configure">
+        <echo msg="Setting up project properties" />
+        <if><not><isset property="environment" /></not>
+            <then>
+                <fail message="Missing environment parameter!" />
+            </then>
+        </if>
+        <if><not><isset property="branch" /></not>
+            <then>
+                <fail message="Missing branch parameter!" />
+            </then>
+        </if>
+        <property file="${path.provision}/config/properties/${environment}.properties" />
+        <property name="pdo.dbname" value="allyz_${environment}_${branch}_build"/>
+
+        <echo msg="Environment: $environment}" />
+        <echo msg="Branch: ${branch}" />
+        <echo msg="Database name: ${pdo.dbname}" />
+
+        <copy file="${path.provision}/config/parameters.yml" tofile="${path.app}/config/parameters.yml" overwrite="true">
+            <filterchain>
+                <replacetokens begintoken="##" endtoken="##">
+                    <token key="PDO_HOST" value="${pdo.host}" />
+                    <token key="PDO_USER" value="${pdo.user}" />
+                    <token key="PDO_PASS" value="${pdo.password}" />
+                    <token key="PDO_DBNAME" value="${pdo.dbname}" />
+                    <token key="CIVIC_KEY" value="${civic.key}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+    </target>
+
+    <target name="composer-install">
+        <echo msg="Installing composer libraries" />
+        <exec command="composer install" dir="" escape="false" passthru="true"/>
+    </target>
+
+    <target name="reset-database">
+        <echo msg="Fully resetting database" />
+        <exec command="php bin/console doctrine:database:drop --if-exists --force" dir="" escape="false" passthru="true"/>
+        <exec command="php bin/console doctrine:database:create" dir="" escape="false" passthru="true"/>
+        <exec command="php bin/console doctrine:schema:update --force" dir="" escape="false" passthru="true"/>
+        <exec command="php bin/console doctrine:fixture:load --append" dir="" escape="false" passthru="true"/>
+    </target>
+
+    <target name="create-super-admin">
+        <if><not><isset property="username" /></not>
+            <then>
+                <fail message="Missing username" />
+            </then>
+        </if>
+        <if><not><isset property="email" /></not>
+            <then>
+                <fail message="Missing email" />
+            </then>
+        </if>
+        <if><not><isset property="password" /></not>
+            <then>
+                <fail message="Missing password" />
+            </then>
+        </if>
+        <echo msg="Creating super admin user: [${username}], with email: [${email}] and password: [${password}]" />
+        <exec command="php bin/console fos:user:create ${username} ${email} ${password} --super-admin" dir="" escape="false" passthru="true"/>
+    </target>
+
+    <target name="set-up" depends="configure, composer-install, reset-database, create-super-admin">
+
+    </target>
+</project>

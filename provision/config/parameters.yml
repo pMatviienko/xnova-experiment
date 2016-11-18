@@ -1,0 +1,20 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_driver: pdo_mysql
+    database_version: 5.7
+    database_host: ##PDO_HOST##
+    database_port: null
+    database_name: ##PDO_DBNAME##
+    database_user: ##PDO_USER##
+    database_password: ##PDO_PASS##
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    secret: ThisTokenIsNotSoSecretChangeIt
+    jwt_private_key_path: '%kernel.root_dir%/jwt/private.pem'
+    jwt_public_key_path: '%kernel.root_dir%/jwt/public.pem'
+    jwt_key_pass_phrase: '1234'
+    jwt_token_ttl: 86400
+    civic_api_key: ##CIVIC_KEY##
+    monolog_token: xoxp-96776747606-96787304503-101130672848-aeccbf0fc6b9c27f640305ff75c4d9ef

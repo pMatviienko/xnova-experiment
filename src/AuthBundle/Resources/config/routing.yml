@@ -1,0 +1,30 @@
+auth_subaccounts_list:
+    path: /subaccounts
+    defaults: { _controller: AuthBundle:SubAccounts:list, _format: ~ }
+    methods: [GET]
+
+auth_subaccounts_details:
+    path: /subaccounts/{id}
+    defaults: { _controller: AuthBundle:SubAccounts:details, _format: ~ }
+    methods: [GET]
+    requirements:
+        id: \d+
+
+auth_subaccounts_create:
+    path: /subaccounts
+    defaults: { _controller: AuthBundle:SubAccounts:create, _format: ~ }
+    methods: [POST]
+
+auth_subaccounts_update:
+    path: /subaccounts/{id}
+    defaults: { _controller: AuthBundle:SubAccounts:update, _format: ~ }
+    methods: [PUT]
+    requirements:
+        id: \d+
+
+auth_subaccounts_delete:
+    path: /subaccounts/{id}
+    defaults: { _controller: AuthBundle:SubAccounts:delete, _format: ~ }
+    methods: [DELETE]
+    requirements:
+        id: \d+

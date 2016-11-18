@@ -1,0 +1,9 @@
+AuthBundle\Entity\Group:
+    type: entity
+    table: fos_group
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO

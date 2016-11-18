@@ -1,0 +1,34 @@
+AuthBundle\Entity\User:
+    exclusion_policy: ALL
+    properties:
+        id:
+            read_only: true
+            type: string
+            groups: [user_list, user_short, user_details]
+        username:
+            type: string
+            groups: [user_list, user_short, user_details]
+        usernameCanonical:
+            type: string
+            groups: [user_details]
+        email:
+            type: string
+            groups: [user_list, user_short, user_details]
+        emailCanonical:
+            type: string
+            groups: [user_details]
+        enabled:
+            type: boolean
+            groups: [user_list, user_details]
+        locked:
+            type: boolean
+            groups: [user_list, user_details]
+        expired:
+            type: boolean
+            groups: [user_list, user_details]
+        lastLogin:
+            type: DateTime
+            groups: [user_list, user_details]
+        expiresAt:
+            type: DateTime
+            groups: [user_list, user_details]

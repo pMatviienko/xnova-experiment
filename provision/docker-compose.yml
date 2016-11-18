@@ -1,0 +1,20 @@
+mysql:
+    container_name: mysql
+    image: mysql/mysql-server:latest
+    environment:
+        MYSQL_ROOT_PASSWORD: root
+    restart: always
+    hostname: mysql
+    ports:
+        - "3306:3306"
+    volumes:
+        - $HOME/mysql:/var/lib/mysql
+elastic:
+    image: elasticsearch
+    container_name: elastic
+    restart: always
+    ports:
+        - "9200:9200"
+        - "9300:9300"
+    volumes:
+        - $HOME/elastic1/data:/usr/share/elasticsearch/data
