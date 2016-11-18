@@ -10,7 +10,7 @@ parameters:
 
 framework:
     #esi:             ~
-    #translator:      { fallbacks: ["%locale%"] }
+    translator:      { fallbacks: ["%locale%"] }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -75,3 +75,101 @@ fos_user:
         group_class: AuthBundle\Entity\Group
     service:
         user_manager: auth.user_manager
+
+lexik_jwt_authentication:
+    private_key_path: %jwt_private_key_path%
+    public_key_path:  %jwt_public_key_path%
+    pass_phrase:      %jwt_key_pass_phrase%
+    token_ttl:        %jwt_token_ttl%
+
+fos_rest:
+    routing_loader:
+        default_format: json
+        include_format: false
+    format_listener:
+        rules:
+            - { path: '^/api', priorities: ['json'], fallback_format: 'json', prefer_extension: false}
+            - { path: '^/', priorities: ['html', '*/*'], fallback_format: 'html', prefer_extension: true }
+    body_listener: true
+    body_converter:
+        enabled: true
+        validate: true
+        validation_errors_argument: validationErrors
+    view:
+        formats:
+            json: true
+        view_response_listener: 'force'
+    exception:
+        messages:
+            Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException: true
+    param_fetcher_listener: true
+    serializer:
+            serialize_null: false
+
+jms_serializer:
+    property_naming:
+        separator:  _
+        lower_case: true
+    metadata:
+        cache: file
+        debug: "%kernel.debug%"
+        file_cache:
+            dir: "%kernel.cache_dir%/serializer"
+        auto_detection: true
+
+nelmio_cors:
+    defaults:
+        allow_credentials: true
+        allow_origin: ['*']
+        allow_headers: []
+        allow_methods: []
+        expose_headers: []
+        max_age: 0
+        hosts: []
+        origin_regex: false
+    paths:
+        '^/api/':
+            origin_regex: true
+            allow_origin: ['*']
+            allow_headers: ['X-Custom-Auth','Session', 'Authorization', 'Content-Type']
+            allow_methods: ['POST', 'PUT', 'GET', 'DELETE', 'OPTIONS']
+            max_age: 3600
+        '^/api/doc':
+            origin_regex: true
+            allow_origin: ['*']
+            allow_headers: ['X-Custom-Auth','Session', 'Authorization']
+            allow_methods: ['POST', 'PUT', 'GET', 'DELETE', 'OPTIONS']
+            max_age: 3600
+
+nelmio_api_doc:
+    name: Allyz API
+    sandbox:
+        enabled: true
+
+sonata_block:
+    default_contexts: [admin]
+    blocks:
+        # Enable the SonataAdminBundle block
+        sonata.user.block.menu:  # used to display the menu in profile pages
+        sonata.block.service.text: # used to if you plan to use Sonata user routes
+        sonata.admin.block.admin_list:
+            contexts:   [admin]
+
+sonata_admin:
+    title:      Admin Console
+    title_logo: /bundles/sonataadmin/logo_title.png
+    templates:
+        layout:  'SonataAdminBundle::standard_layout.html.twig'
+        ajax:    'SonataAdminBundle::ajax_layout.html.twig'
+        list:    'SonataAdminBundle:CRUD:list.html.twig'
+        show:    'SonataAdminBundle:CRUD:show.html.twig'
+        edit:    'SonataAdminBundle:CRUD:edit.html.twig'
+        dashboard: 'SonataAdminBundle:Core:dashboard.html.twig'
+        user_block:   'AppBundle:admin:user_block.html.twig'
+    security:
+        handler: sonata.admin.security.handler.role
+    dashboard:
+        groups:
+
+stof_doctrine_extensions:
+    default_locale: en_US

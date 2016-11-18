@@ -1,0 +1,4 @@
+services:
+#    pm_fosapi.example:
+#        class: PM\FosapiBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

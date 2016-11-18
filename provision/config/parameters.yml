@@ -16,5 +16,3 @@ parameters:
     jwt_public_key_path: '%kernel.root_dir%/jwt/public.pem'
     jwt_key_pass_phrase: '1234'
     jwt_token_ttl: 86400
-    civic_api_key: ##CIVIC_KEY##
-    monolog_token: xoxp-96776747606-96787304503-101130672848-aeccbf0fc6b9c27f640305ff75c4d9ef

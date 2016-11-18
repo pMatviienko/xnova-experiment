@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="Allyz" default="set-up" basedir="" description="Allyz">
+<project name="Xnova" default="set-up" basedir="" description="Xnova">
 
     <property name="path.provision" value="provision"/>
     <property name="path.app" value="app"/>
@@ -22,7 +22,7 @@
             </then>
         </if>
         <property file="${path.provision}/config/properties/${environment}.properties" />
-        <property name="pdo.dbname" value="allyz_${environment}_${branch}_build"/>
+        <property name="pdo.dbname" value="xmova_${environment}_${branch}_build"/>
 
         <echo msg="Environment: $environment}" />
         <echo msg="Branch: ${branch}" />
